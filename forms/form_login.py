@@ -3,18 +3,24 @@ from tkinter import ttk, messagebox
 from tkinter.font import BOLD
 import util.generic as utl
 from forms.form_master import MasterPanel
-
+from data import conexion
 class App:
     
     
     def verificar(self):
         usu = self.usuario.get()
-        password = self.password.get()        
-        if(usu == "root" and password == "1234") :
-            self.ventana.destroy()
-            MasterPanel()
+        password = self.password.get() 
+
+        usuario = conexion.buscar_usuarios(usu, password)
+        if(not usu or not password):
+            messagebox.showerror(message="Debes completar todos los campos",title="Mensaje") 
         else:
-            messagebox.showerror(message="La contraseña no es correcta",title="Mensaje")           
+            if(len(usuario) > 0) :
+                self.ventana.destroy()
+                MasterPanel()
+            else:
+                messagebox.showerror(message="Credenciales incorrectas",title="Mensaje") 
+            
                       
     def __init__(self):        
         self.ventana = tk.Tk()                             
