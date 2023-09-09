@@ -3,15 +3,15 @@ from tkinter import ttk, messagebox
 from tkinter.font import BOLD
 import util.generic as utl
 from forms.form_master import MasterPanel
-from data import conexion
+from data.conexion import Dao
 class App:
-    
+
     
     def verificar(self):
         usu = self.usuario.get()
         password = self.password.get() 
 
-        usuario = conexion.buscar_usuarios(usu, password)
+        usuario = self.datos.buscar_usuarios( usu, password)
         if(not usu or not password):
             messagebox.showerror(message="Debes completar todos los campos",title="Mensaje") 
         else:
@@ -29,8 +29,9 @@ class App:
         self.ventana.config(bg='#fcfcfc')
         self.ventana.resizable(width=0, height=0)    
         utl.centrar_ventana(self.ventana,800,500)
+        self.datos = Dao()
         
-        logo =utl.leer_imagen("./imagenes/logo.png", (200, 200))
+        logo =utl.leer_imagen("../resources/logo.png", (200, 200))
         # frame_logo
         frame_logo = tk.Frame(self.ventana, bd=0, width=300, relief=tk.SOLID, padx=10, pady=10,bg='#3a7ff6')
         frame_logo.pack(side="left",expand=tk.YES,fill=tk.BOTH)

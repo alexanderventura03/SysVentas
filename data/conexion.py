@@ -1,13 +1,15 @@
 import mysql.connector
 
+class Dao():
 
-conexion = mysql.connector.connect(host="127.0.0.1", database = "sysventasdb", user="root", password="" )
+    def __init__(self):
+        self.conexion = mysql.connector.connect(host="127.0.0.1", database = "sysventasdb", user="root", password="" )
 
-def buscar_usuarios(email, password):
-    cur = conexion.cursor();
-    sql = "SELECT * FROM usuarios_admin WHERE email='"+email+"' AND password = '"+password+"'";
-    cur.execute(sql);
-    usersx = cur.fetchall()
-    cur.close()
-    return usersx
+    def buscar_usuarios(self, email, password):
+        cur = self.conexion.cursor()
+        sql = "SELECT * FROM usuarios_admin WHERE email='"+email+"' AND password = '"+password+"'";
+        cur.execute(sql);
+        usersx = cur.fetchall()
+        cur.close()
+        return usersx
 
