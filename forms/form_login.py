@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.font import BOLD
 import util.generic as utl
-from forms.form_master import MasterPanel
+from forms.form_master import Homepage
 from data import conexion
 class App:
     
@@ -17,7 +17,7 @@ class App:
         else:
             if(len(usuario) > 0) :
                 self.ventana.destroy()
-                MasterPanel()
+                Homepage()
             else:
                 messagebox.showerror(message="Credenciales incorrectas",title="Mensaje") 
             
