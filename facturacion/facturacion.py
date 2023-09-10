@@ -67,6 +67,24 @@ def borrar():
     global operador
     operador = ''
     visor_calculadora.delete(0, END)
+
+def resetear():
+    texto_recibo.delete(0.1, END)
+    visor_calculadora.delete(0, END)
+
+    for texto in texto_producto:
+        texto.set('0')
+
+    for cuadro in cuadros_productos:
+        cuadro.config(state=DISABLED)
+
+    for p in productos_agregados:
+        p.set(0)
+
+    var_sub_total.set('')
+    var_impuesto.set('')
+    var_total.set('')
+
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
 panel_superior.pack(side="top")
@@ -238,6 +256,8 @@ for boton in botones:
     columnas += 1
 
 botones_creados[0].config(command=total)
+
+botones_creados[3].config(command=resetear)
 
 # area de recibo
 texto_recibo = Text(panel_recibo,
