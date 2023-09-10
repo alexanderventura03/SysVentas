@@ -4,6 +4,7 @@ from tkinter.font import BOLD
 import util.generic as utl
 from forms.form_master import Homepage
 from data import conexion
+
 class App:
     
     

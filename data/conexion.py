@@ -1,11 +1,11 @@
 import mysql.connector
 
 
-conexion = mysql.connector.connect(host="127.0.0.1", database = "sysventasdb", user="root", password="" )
+conexion = mysql.connector.connect(host="sql10.freesqldatabase.com", database = "sql10645379", user="sql10645379", password="Fw9K2BszKr" )
 
 def buscar_usuarios(email, password):
     cur = conexion.cursor();
-    sql = "SELECT * FROM usuarios_admin WHERE email='"+email+"' AND password = '"+password+"'";
+    sql = "SELECT * FROM Usuarios_Admin WHERE email='"+email+"' AND Passwords = '"+password+"'";
     cur.execute(sql);
     usersx = cur.fetchall()
     cur.close()
