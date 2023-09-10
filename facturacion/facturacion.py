@@ -1,4 +1,5 @@
 from tkinter import *
+from data.conexion import Dao
 
 # Inicializar la aplicación Tkinter
 aplicacion = Tk()
@@ -6,6 +7,21 @@ aplicacion.geometry('1000x610+0+0')
 aplicacion.title("SysVentas")
 aplicacion.config(bg="burlywood")
 aplicacion.resizable(0,0);
+
+datos = Dao()
+
+def revisar_check():
+    x = 0
+    for c in cuadros_productos:
+        if(productos_agregados[x].get() == 1):
+            cuadros_productos[x].config(state=NORMAL)
+            if(productos_agregados[x].get() == 0):
+                cuadros_productos[x].delete(0, END)
+            cuadros_productos[x].focus()
+        else:
+            cuadros_productos[x].config(state=DISABLED)
+            texto_producto[x].set('0')
+        x+=1
 
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
@@ -69,6 +85,43 @@ panel_recibo.pack()
 panel_botones = Frame(panel_derecho, bd=1, relief="flat", bg="burlywood")
 panel_botones.pack()
 
+
+# Productos orden en lista 0-ID, 1-Nombre Producto, 2-Precio, 3-Cantidad disponible
+productos = datos.buscar_productos()
+
+contador_fila = 0
+contador_productos = 0
+productos_agregados = []
+cuadros_productos = []
+texto_producto = []
+
+for producto in productos:
+    # Crear los checkbox
+    productos_agregados.append(IntVar())
+    producto_checkbutton = Checkbutton(frame_products, text=f"{producto[1]} - D:{producto[3]} - ${producto[2]}",
+                                       font=("Dosis", 19, "bold"),
+                                       variable=productos_agregados[contador_productos],
+                                       command=revisar_check)
+    producto_checkbutton.grid(row=contador_fila, column=0, sticky=W)
+
+
+    # Crear los cuadros de entrada
+    cuadros_productos.append('')
+    texto_producto.append('')
+    texto_producto[contador_productos] = StringVar()
+    texto_producto[contador_productos].set('0')
+    cuadros_productos[contador_productos] = Entry(frame_products, bd=1, 
+                                                  font=('Dosis', 18, 'bold'),
+                                                  width=6,
+                                                  state=DISABLED,
+                                                  textvariable=texto_producto[contador_productos]
+                                                  )
+    cuadros_productos[contador_productos].grid(row=contador_fila, column=1, padx=(10, 0))
+
+    contador_productos += 1
+    contador_fila += 1
+
+canvas.config(scrollregion=canvas.bbox("all"), width=500, height=360)
 
 # Evitar que la aplicación se cierre
 aplicacion.mainloop()
