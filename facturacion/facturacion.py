@@ -1,3 +1,4 @@
+from decimal import Decimal
 from tkinter import *
 from data.conexion import Dao
 
@@ -31,6 +32,23 @@ def revisar_check():
             cuadros_productos[x].config(state=DISABLED)
             texto_producto[x].set('0')
         x+=1
+
+def total():
+    sub_total_producto = 0
+    index = 0
+
+    for cantidad in texto_producto:
+        sub_total_producto = sub_total_producto + (Decimal(cantidad.get()) * productos[index][2])
+
+        index += 1
+
+    impuestos = sub_total_producto * Decimal(0.18)
+    total = sub_total_producto + impuestos
+    
+    # Asignamos los valores a sus respectivos entrys
+    var_sub_total.set(f"{round(sub_total_producto, 2)}")
+    var_impuesto.set(f"{round(impuestos, 2)}")
+    var_total.set(f"{round(total, 2)}")
 
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
@@ -182,6 +200,36 @@ texto_total = Entry(panel_coste,
                                 textvariable=var_total)
 
 texto_total.grid(row=2, column=1)
+
+# botones
+botones = ['total', 'recibo', 'guardar', 'resetear']
+botones_creados = []
+
+columnas = 0
+for boton in botones:
+    boton = Button(panel_botones,
+                   text=boton.title(),
+                   font=('Dosis', 14, 'bold'),
+                   fg='white',
+                   bg='azure4',
+                   bd=1,
+                   width=9)
+    botones_creados.append(boton)
+
+    boton.grid(row=0,
+               column=columnas)
+    columnas += 1
+
+botones_creados[0].config(command=total)
+
+# area de recibo
+texto_recibo = Text(panel_recibo,
+                    font=('Dosis', 12, 'bold'),
+                    bd=1,
+                    width=42,
+                    height=13)
+texto_recibo.grid(row=0,
+                  column=0)
 
 # Evitar que la aplicación se cierre
 aplicacion.mainloop()
