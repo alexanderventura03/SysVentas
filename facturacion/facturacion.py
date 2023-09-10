@@ -1,6 +1,10 @@
 from decimal import Decimal
 from tkinter import *
 from data.conexion import Dao
+import random
+import datetime
+from tkinter import filedialog, messagebox
+import string
 
 # Inicializar la aplicación Tkinter
 aplicacion = Tk()
@@ -85,6 +89,71 @@ def resetear():
     var_impuesto.set('')
     var_total.set('')
 
+
+def recibo():
+    # Caracteres permitidos (letras mayúsculas y dígitos)
+    caracteres_permitidos = string.ascii_uppercase + string.digits
+    total()
+    id_generado = ''.join(random.choice(caracteres_permitidos) for _ in range(8))
+    texto_recibo.delete(1.0, END)
+    num_recibo = f'N# - {id_generado}'
+    fecha = datetime.datetime.now()
+    fecha_recibo = f'{fecha.day}/{fecha.month}/{fecha.year} - {fecha.hour}:{fecha.minute}'
+
+    # Generar modelo factura
+    factura.append([id_generado, fecha, Decimal(var_sub_total.get()), (Decimal(var_impuesto.get())), Decimal(var_total.get())])
+
+    texto_recibo.insert(END, f'Datos:\t{num_recibo}\t\t{fecha_recibo}\n')
+    texto_recibo.insert(END, f'*' * 54 + '\n')
+    texto_recibo.insert(END, 'Items\t\tCant.\tCosto Items\n')
+    texto_recibo.insert(END, f'-' * 54 + '\n')
+
+    x = 0
+    for producto in texto_producto:
+        if producto.get() != '0':
+            texto_recibo.insert(END, f'{productos[x][1]}\t\t{producto.get()}\t'
+                                     f'$ {Decimal(producto.get()) * productos[x][2]}\n')
+            
+            # Esto traerá el id y la cantidad que quedaría en la base de datos
+            productos_actualizar.append([productos[x][0], int(productos[x][3]) - int(producto.get())])
+
+            
+            detalle_factura.append([id_generado, productos[x][1], Decimal(producto.get()), Decimal(productos[x][2]), (Decimal(productos[x][2]) * (Decimal(producto.get())))])
+            
+        x += 1
+
+    texto_recibo.insert(END, f'-' * 54 + '\n')
+
+    texto_recibo.insert(END, f' Sub-total: \t\t\t{var_sub_total.get()}\n')
+    texto_recibo.insert(END, f' Impuestos: \t\t\t{var_impuesto.get()}\n')
+    texto_recibo.insert(END, f' Total: \t\t\t{var_total.get()}\n')
+    texto_recibo.insert(END, f'*' * 54 + '\n')
+    texto_recibo.insert(END, 'Lo esperamos pronto')
+
+def guardar_recibo():
+
+    i = 0
+    informacion_recibo = texto_recibo.get(1.0, END)
+    archivo = filedialog.asksaveasfile(mode="w", defaultextension=(".txt")) 
+    archivo.write(informacion_recibo)
+    archivo.close()
+
+    for producto in productos_actualizar:
+        datos.actualizar_inventario(producto[0], producto[1])
+
+    datos.insertar_factura(factura[0][0], factura[0][1], factura[0][2], factura[0][3], factura[0][4])
+
+    # Insertar los detalles de factura en la base de datos
+    index = 0
+    for detalle in detalle_factura:
+        datos.insertar_detalle_factura(detalle[0], detalle[1], detalle[2], detalle[3], detalle[4],)
+     
+        index+=1
+
+    factura.clear()
+    detalle_factura.clear()
+
+    messagebox.showinfo("Información", "Factura guardada correctamente")
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
 panel_superior.pack(side="top")
@@ -256,7 +325,8 @@ for boton in botones:
     columnas += 1
 
 botones_creados[0].config(command=total)
-
+botones_creados[1].config(command=recibo)
+botones_creados[2].config(command=guardar_recibo)
 botones_creados[3].config(command=resetear)
 
 # area de recibo
