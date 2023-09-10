@@ -90,7 +90,7 @@ class Homepage:
         frame_button_consulta = tk.Frame(frame_derecho_botones1, bd=1, relief=tk.SOLID)
         frame_button_consulta.pack(side="left", fill=tk.NONE, padx=3)
 
-        consultar = tk.Button(frame_button_consulta,text="Consultar Productos",font=('Times', 15, BOLD), bg='#fcfcfc', bd=0, fg="black", width=14)
+        consultar = tk.Button(frame_button_consulta,text="Consultar Inventario",font=('Times', 15, BOLD), bg='#fcfcfc', bd=0, fg="black", width=14)
         consultar.pack(fill=tk.X, padx=2, pady=2)
        
        #Boton Crear Factura
