@@ -20,4 +20,36 @@ class Dao:
         usersx = cur.fetchall()
         cur.close()
         return usersx
+    
+    def actualizar_inventario(self, id_producto, cantidad_a_eliminar):
+        cursor = self.conexion.cursor()
+        # Convierte las variables a cadenas utilizando str()
+        id_producto_str = str(id_producto)
+        cantidad_a_eliminar_str = str(cantidad_a_eliminar)
+        
+        # Usa parámetros en la consulta para evitar la concatenación
+        sql = "UPDATE productos SET Cantidad_disponible = %s WHERE Id_producto = %s"
+        
+        cursor.execute(sql, (cantidad_a_eliminar_str, id_producto_str))
+        self.conexion.commit()
+        cursor.close()
+
+    def insertar_factura(self, numero_factura, fecha_compra, sub_total, impuestos, total):
+        cursor = self.conexion.cursor()
+        sql = "INSERT INTO Facturas (numero_factura, fecha_compra, sub_total, impuestos, total) VALUES (%s, %s, %s, %s, %s)"
+        valores = (numero_factura, fecha_compra, sub_total, impuestos, total)
+        
+        cursor.execute(sql, valores)
+        self.conexion.commit()
+        cursor.close()
+
+    def insertar_detalle_factura(self, numero_factura, nombre_producto, cantidad, costo_unitario, costo_total):
+        cursor = self.conexion.cursor()
+        sql = "INSERT INTO DetalleFactura (numero_factura, nombre_producto, cantidad, costo_unitario, costo_total) VALUES (%s, %s, %s, %s, %s)"
+        valores = (numero_factura, nombre_producto, cantidad, costo_unitario, costo_total)
+        
+        cursor.execute(sql, valores)
+        self.conexion.commit()
+        cursor.close()
+
 
