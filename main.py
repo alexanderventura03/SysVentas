@@ -1,3 +1,2 @@
-from forms.form_login import App
-
-App()
+from forms.form_inventario import inventario
+inventario()
