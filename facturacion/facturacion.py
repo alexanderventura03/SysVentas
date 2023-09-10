@@ -10,6 +10,15 @@ aplicacion.resizable(0,0);
 
 datos = Dao()
 
+# variables
+operador = ''
+var_sub_total = StringVar()
+var_impuesto = StringVar()
+var_total = StringVar()
+productos_actualizar = []
+factura = []
+detalle_factura = []
+
 def revisar_check():
     x = 0
     for c in cuadros_productos:
@@ -122,6 +131,57 @@ for producto in productos:
     contador_fila += 1
 
 canvas.config(scrollregion=canvas.bbox("all"), width=500, height=360)
+
+etiqueta_sub_total = Label(panel_coste, text="Sub total: ", 
+                                font=("Dosis", 12, "bold"),
+                                bg="azure4",
+                                fg="white",
+                                padx=65,)
+
+etiqueta_sub_total.grid(row=0, column=0)
+
+texto_sub_total = Entry(panel_coste, 
+                                font=("Dosis", 12, "bold"),
+                                bd=1,
+                                width=10,
+                                state="readonly",
+                                textvariable=var_sub_total)
+
+texto_sub_total.grid(row=0, column=1)
+
+etiqueta_impuesto = Label(panel_coste, text="Impuestos: ", 
+                                font=("Dosis", 12, "bold"),
+                                bg="azure4",
+                                fg="white",
+                                padx=60,)
+
+etiqueta_impuesto.grid(row=1, column=0)
+
+texto_impuesto = Entry(panel_coste, 
+                                font=("Dosis", 12, "bold"),
+                                bd=1,
+                                width=10,
+                                state="readonly",
+                                textvariable=var_impuesto)
+
+texto_impuesto.grid(row=1, column=1)
+
+etiqueta_total = Label(panel_coste, text="      Total:     ", 
+                                font=("Dosis", 12, "bold"),
+                                bg="azure4",
+                                fg="white",
+                                padx=41,)
+
+etiqueta_total.grid(row=2, column=0)
+
+texto_total = Entry(panel_coste, 
+                                font=("Dosis", 12, "bold"),
+                                bd=1,
+                                width=10,
+                                state="readonly",
+                                textvariable=var_total)
+
+texto_total.grid(row=2, column=1)
 
 # Evitar que la aplicación se cierre
 aplicacion.mainloop()
