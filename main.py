@@ -1,6 +1,3 @@
-from forms.form_login import App 
+from forms.form_login import App
+
 App()
-
-
-
-
