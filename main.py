@@ -1,3 +1,3 @@
-from forms.form_login import App
+from facturacion.facturacion import aplicacion
 
-App()
+aplicacion
