@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import util.generic as utl
 from data.conexion import Dao
 
@@ -51,16 +51,73 @@ class inventario:
         self.lista.heading("col5",text="Descripcion", anchor="center")
         self.lista.heading("col6",text="Fecha", anchor="center")
 
+        #Eventos
+        self.lista.bind("<Double 1>", lambda event, frame_producto=frame_producto: self.obtener_fila(event, frame_producto))
+
         if(resultados == ""):
             productos = self.datos.consultar_inventario()
             for producto in productos:
-                self.lista.insert("", END, text=producto[0], values=(producto[1], producto[2], producto[3], producto[4], producto[5], producto[6]))
+                if producto[7] is None:
+                    self.lista.insert("", END, text=producto[0], values=(producto[1], producto[2], producto[3], producto[4], producto[5], producto[6]))
         else:
             for resultado in resultados:
-                self.lista.insert("", END, text=resultado[0], values=(resultado[1], resultado[2], resultado[3], resultado[4], resultado[5], resultado[6]))
+                if resultado[7] is None:
+                    self.lista.insert("", END, text=resultado[0], values=(resultado[1], resultado[2], resultado[3], resultado[4], resultado[5], resultado[6]))
 
         self.lista.pack(side="top", fill=tk.NONE, padx=25, pady=15)
         self.lista.pack_propagate(False)  
+
+    def obtener_fila(self, event, frame_producto):
+        id =StringVar()
+        nombre =StringVar()
+        categoria =StringVar()
+        precio =StringVar()
+        existencia =StringVar()
+        descripcion =StringVar()
+        nombreFila= self.lista.identify_row(event.y)
+        elemento = self.lista.item(self.lista.focus())
+        i = elemento['text']
+        n = elemento['values'][0]
+        c = elemento['values'][1]
+        p = elemento['values'][2]
+        e = elemento['values'][3]
+        d = elemento['values'][4]
+
+        id.set(i)
+        nombre.set(n)
+        categoria.set(c)
+        precio.set(p)
+        existencia.set(e)
+        descripcion.set(d)
+        pop = Toplevel(self.ventana)
+        pop.geometry("400x200")
+        txt_nombre = Entry(pop,textvariable= nombre).place(x=40,y=40)
+        txt_categoria = Entry(pop,textvariable= categoria).place(x=40,y=80)
+        txt_precio = Entry(pop,textvariable= precio).place(x=40,y=120)
+        txt_existencia = Entry(pop,textvariable= existencia).place(x=200,y=40)
+        txt_descripcion = Entry(pop,textvariable= descripcion).place(x=200,y=80)
+
+        #botones
+        btn_cambiar = Button(pop, text="Actualizar",relief="flat",bg="#3a7ff6",foreground="white",command=lambda:self.editar(frame_producto, pop, i, nombre.get(),categoria.get(),precio.get(),existencia.get(),descripcion.get())).place(x=180,y=160,width=90)                 
+        btn_eliminar = Button(pop, text="Eliminar ",relief="flat",bg="red",foreground="white",command=lambda:self.eliminar(frame_producto, pop, i)).place(x=290,y=160,width=90)
+
+    def editar(self, frame_producto, pop, id, nombre, categoria, precio, existencia, description):
+        datos = Dao()
+        arr = [nombre, categoria, precio, existencia, description]
+        actualizados = datos.actualizar_producto(arr, id)
+        self.limpiar_lista(frame_producto)
+        self.crear_tabla(frame_producto, actualizados)
+        messagebox.showinfo(title="Actualizacion", message="Se ha actualizado el producto correctamente")
+        pop.destroy()
+
+    def eliminar(self, frame_producto, pop, id):
+        datos = Dao()
+        actualizados = datos.eliminar_elemento(id)
+        respuesta = messagebox.askyesno("Confirmar", "¿Deseas eliminar este producto?")
+        if respuesta:
+            pop.destroy()
+            self.limpiar_lista(frame_producto)
+            self.crear_tabla(frame_producto, actualizados)
 
     def __init__(self):        
         self.ventana = tk.Tk()                         
@@ -93,7 +150,6 @@ class inventario:
 
         frame_producto = tk.Frame(frame_tabla, width=800, height = 300, bd=0, relief=tk.SOLID, bg='#bae3f7')
         frame_producto.pack(expand=tk.NO,fill=tk.BOTH)
-
 
         #Boton Regresar
         frame_button_regresar = tk.Frame(frame_botones,  bd=0, relief=tk.SOLID,bg='#fcfcfc')
