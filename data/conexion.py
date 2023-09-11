@@ -4,6 +4,7 @@ class Dao:
     def __init__(self):
         self.conexion = mysql.connector.connect(host="sql10.freesqldatabase.com", database="sql10645379", 
                                                user="sql10645379", password="Fw9K2BszKr")
+        self.cursor = self.conexion.cursor()
 
     def buscar_productos(self):
         cursor = self.conexion.cursor()
@@ -63,7 +64,7 @@ class Dao:
 
     def consultar_inventario(self):
         cur = self.conexion.cursor();
-        sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated FROM productos";
+        sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated, Fecha_Deleted FROM productos";
         cur.execute(sql);
         products = cur.fetchall()
         cur.close()
@@ -71,7 +72,7 @@ class Dao:
 
     def btn_buscar(self, busqueda):
         cur = self.conexion.cursor();
-        sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated \
+        sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated, Fecha_Deleted \
                 FROM productos\
                 WHERE Id_producto LIKE \'%"+busqueda+"%\'\
                 OR Nombre_producto LIKE \'%"+busqueda+"%\'\
@@ -84,4 +85,30 @@ class Dao:
         products = cur.fetchall()
         cur.close()
         return products
+    
+    def actualizar_producto(self, elemento, id):
+        # cur = self.conexion.cursor();
+        sql= "UPDATE productos SET Nombre_producto = '{}', Categoria = '{}', Precio = '{}', Cantidad_disponible = '{}', Descripcion = '{}', Ultimo_Updated = CURRENT_TIMESTAMP() WHERE Id_producto = '{}'".format(elemento[0], elemento[1], elemento[2], elemento[3], elemento[4], id)
+        self.cursor.execute(sql)
+        self.conexion.commit()
+
+        sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated, Fecha_Deleted FROM productos";
+        self.cursor.execute(sql);
+        products = self.cursor.fetchall()
+        self.cursor.close()
+        return products
+    
+    def eliminar_elemento(self, id):
+        sql = "UPDATE productos SET Fecha_Deleted = CURRENT_TIMESTAMP() WHERE Id_producto = '{}'".format(id)
+        self.cursor.execute(sql)
+        self.conexion.commit()
+
+        sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated, Fecha_Deleted FROM productos";
+        self.cursor.execute(sql);
+        products = self.cursor.fetchall()
+        self.cursor.close()
+        return products
+    
+
+
 
