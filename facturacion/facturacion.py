@@ -15,6 +15,7 @@ aplicacion.config(bg='#0369a1')
 aplicacion.resizable(0,0);
 centrar_ventana(aplicacion, 1000, 612)
 
+
 datos = Dao()
 
 # variables
@@ -134,28 +135,30 @@ def recibo():
 
 def guardar_recibo():
 
-    i = 0
-    informacion_recibo = texto_recibo.get(1.0, END)
-    archivo = filedialog.asksaveasfile(mode="w", defaultextension=(".txt")) 
-    archivo.write(informacion_recibo)
-    archivo.close()
+    respuesta = messagebox.askyesno("Confirmar", "¿Deseas continuar?")
+    if respuesta:
+        i = 0
+        informacion_recibo = texto_recibo.get(1.0, END)
+        archivo = filedialog.asksaveasfile(mode="w", defaultextension=(".txt")) 
+        archivo.write(informacion_recibo)
+        archivo.close()
 
-    for producto in productos_actualizar:
-        datos.actualizar_inventario(producto[0], producto[1])
+        for producto in productos_actualizar:
+            datos.actualizar_inventario(producto[0], producto[1])
 
-    datos.insertar_factura(factura[0][0], factura[0][1], factura[0][2], factura[0][3], factura[0][4])
+        datos.insertar_factura(factura[0][0], factura[0][1], factura[0][2], factura[0][3], factura[0][4])
 
-    # Insertar los detalles de factura en la base de datos
-    index = 0
-    for detalle in detalle_factura:
-        datos.insertar_detalle_factura(detalle[0], detalle[1], detalle[2], detalle[3], detalle[4],)
-     
-        index+=1
+        # Insertar los detalles de factura en la base de datos
+        index = 0
+        for detalle in detalle_factura:
+            datos.insertar_detalle_factura(detalle[0], detalle[1], detalle[2], detalle[3], detalle[4],)
+        
+            index+=1
 
-    factura.clear()
-    detalle_factura.clear()
+        factura.clear()
+        detalle_factura.clear()
 
-    messagebox.showinfo("Información", "Factura guardada correctamente")
+        messagebox.showinfo("Información", "Factura guardada correctamente")
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
 panel_superior.pack(side="top")

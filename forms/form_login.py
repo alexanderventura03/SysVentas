@@ -3,20 +3,23 @@ from tkinter import ttk, messagebox
 from tkinter.font import BOLD
 import util.generic as utl
 from forms.form_master import Homepage
-from data import conexion
+from data.conexion import Dao
 
 class App:
     
-    
     def verificar(self):
+        datos = Dao()
         usu = self.usuario.get()
         password = self.password.get() 
 
-        usuario = conexion.buscar_usuarios(usu, password)
+        usuario = datos.buscar_usuarios(usu, password)
         if(not usu or not password):
             messagebox.showerror(message="Debes completar todos los campos",title="Mensaje") 
         else:
-            if(len(usuario) > 0) :
+            if len(usuario) > 0 and usuario[0][7] == "Facturador":
+                self.ventana.destroy()
+                from facturacion import facturacion
+            elif len(usuario) > 0:
                 self.ventana.destroy()
                 Homepage()
             else:

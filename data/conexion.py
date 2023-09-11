@@ -15,7 +15,7 @@ class Dao:
 
     def buscar_usuarios(self, email, password):
         cur = self.conexion.cursor();
-        sql = "SELECT * FROM Usuarios WHERE email='"+email+"' AND Contrasena = '"+password+"'";
+        sql = "SELECT * FROM Usuarios WHERE Email='"+email+"' AND Contrasena = '"+password+"'";
         cur.execute(sql);
         usersx = cur.fetchall()
         cur.close()
