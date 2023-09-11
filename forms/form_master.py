@@ -20,7 +20,11 @@ class Homepage:
         if respuesta:
             self.ventana.destroy()
             App()
-    
+
+    def ir_inventario(self):
+        from forms.form_inventario import inventario
+        self.ventana.destroy()
+        inventario()
                                       
     def __init__(self):        
         self.ventana = tk.Tk()                         
@@ -31,7 +35,7 @@ class Homepage:
         self.ventana.resizable(width=0, height=0)
         utl.centrar_ventana(self.ventana,600,300)            
         
-        logo =utl.leer_imagen("./imagenes/logo.png", (100, 100))
+        logo = utl.leer_imagen("./imagenes/logo.png", (100, 100))
 
         #Frame izquierdo del Homepage 
 
@@ -63,20 +67,20 @@ class Homepage:
         frame_form_derecho = tk.Frame(self.ventana, width=400, bd=0, relief=tk.SOLID, bg='#fcfcfc')
         frame_form_derecho.pack(side="right",expand=tk.YES,fill=tk.BOTH)
 
-        frame_derecho_contenedor = tk.Frame(frame_form_derecho, height = 300, bd=0, relief=tk.SOLID, bg='#666a88', padx=5, pady=5)
+        frame_derecho_contenedor = tk.Frame(frame_form_derecho, height = 300, bd=0, relief=tk.SOLID, bg='#bae3f7', padx=5, pady=5)
         frame_derecho_contenedor.pack(fill=tk.BOTH)
         frame_derecho_contenedor.place(x=0, y=0, relheight=1, relwidth=1)
 
         #Titulo de la vista
-        frame_titulo_contenedor = tk.Frame(frame_derecho_contenedor, height=50, bd=0, relief=tk.SOLID, bg='#666a88', padx=5, pady=5)
+        frame_titulo_contenedor = tk.Frame(frame_derecho_contenedor, height=50, bd=0, relief=tk.SOLID, bg='#bae3f7', padx=5, pady=5)
         frame_titulo_contenedor.pack(side="top", fill=tk.BOTH)
         title = tk.Label(frame_titulo_contenedor, text="Página de inicio", font=('Times', 20), fg="black",bg='#cccccc',pady=10)
         title.pack(expand=tk.YES,fill=tk.BOTH)
 
         #Contenedores de botones
-        frame_derecho_botones1 = tk.Frame(frame_derecho_contenedor, height = 50, bd=0, relief=tk.SOLID, padx=10, bg='#666a88')
+        frame_derecho_botones1 = tk.Frame(frame_derecho_contenedor, height = 50, bd=0, relief=tk.SOLID, padx=10, bg='#bae3f7')
         frame_derecho_botones1.pack(side="top", fill=tk.BOTH, pady=45)
-        frame_derecho_botones2 = tk.Frame(frame_derecho_contenedor, height = 50, bd=0, relief=tk.SOLID, padx=10, bg='#666a88')
+        frame_derecho_botones2 = tk.Frame(frame_derecho_contenedor, height = 50, bd=0, relief=tk.SOLID, padx=10, bg='#bae3f7')
         frame_derecho_botones2.pack(side="top", fill=tk.BOTH)
 
         #Boton agregar producto
@@ -90,7 +94,7 @@ class Homepage:
         frame_button_consulta = tk.Frame(frame_derecho_botones1, bd=1, relief=tk.SOLID)
         frame_button_consulta.pack(side="left", fill=tk.NONE, padx=3)
 
-        consultar = tk.Button(frame_button_consulta,text="Consultar Productos",font=('Times', 15, BOLD), bg='#fcfcfc', bd=0, fg="black", width=14)
+        consultar = tk.Button(frame_button_consulta,text="Consultar Inventario",font=('Times', 15, BOLD), bg='#fcfcfc', bd=0, fg="black", width=14,  command= lambda: self.ir_inventario())
         consultar.pack(fill=tk.X, padx=2, pady=2)
        
        #Boton Crear Factura
