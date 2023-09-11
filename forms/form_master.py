@@ -30,8 +30,8 @@ class Homepage:
     def crear_factura(self):
         respuesta = messagebox.askyesno("Confirmar", "¿Deseas ir al módulo de facturación?")
         if respuesta:
-            self.ventana.destroy()
             from facturacion.facturacion import aplicacion
+            self.ventana.destroy()
 
     def __init__(self):        
         self.ventana = tk.Tk()                         
@@ -81,7 +81,7 @@ class Homepage:
         #Titulo de la vista
         frame_titulo_contenedor = tk.Frame(frame_derecho_contenedor, height=50, bd=0, relief=tk.SOLID, bg='#bae3f7', padx=5, pady=5)
         frame_titulo_contenedor.pack(side="top", fill=tk.BOTH)
-        title = tk.Label(frame_titulo_contenedor, text="Página de inicio", font=('Times', 20), fg="black",bg='#cccccc',pady=10)
+        title = tk.Label(frame_titulo_contenedor, text="Bienvenido", font=('Times', 20), fg="black",bg='#bae3f7',pady=10)
         title.pack(expand=tk.YES,fill=tk.BOTH)
 
         #Contenedores de botones
