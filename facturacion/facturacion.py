@@ -143,7 +143,7 @@ def recibo():
             productos_actualizar.append([productos[x][0], int(productos[x][3]) - int(producto.get())])
 
             
-            detalle_factura.append([id_generado, productos[x][1], Decimal(producto.get()), Decimal(productos[x][2]), (Decimal(productos[x][2]) * (Decimal(producto.get())))])
+            detalle_factura.append([id_generado, productos[x][0], Decimal(producto.get()), Decimal(productos[x][2]), (Decimal(productos[x][2]) * (Decimal(producto.get())))])
             
         x += 1
 

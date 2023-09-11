@@ -44,10 +44,10 @@ class Dao:
         self.conexion.commit()
         cursor.close()
 
-    def insertar_detalle_factura(self, numero_factura, nombre_producto, cantidad, costo_unitario, costo_total):
+    def insertar_detalle_factura(self, numero_factura, producto_id, cantidad, costo_unitario, costo_total):
         cursor = self.conexion.cursor()
-        sql = "INSERT INTO DetalleFactura (numero_factura, nombre_producto, cantidad, costo_unitario, costo_total) VALUES (%s, %s, %s, %s, %s)"
-        valores = (numero_factura, nombre_producto, cantidad, costo_unitario, costo_total)
+        sql = "INSERT INTO DetalleFactura (numero_factura, producto_id, cantidad, costo_unitario, costo_total) VALUES (%s, %s, %s, %s, %s)"
+        valores = (numero_factura, producto_id, cantidad, costo_unitario, costo_total)
         
         cursor.execute(sql, valores)
         self.conexion.commit()
