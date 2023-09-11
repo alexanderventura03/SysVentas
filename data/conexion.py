@@ -19,3 +19,19 @@ def consultar_inventario():
     cur.close()
     return products
 
+def btn_buscar(busqueda):
+    cur = conexion.cursor();
+    sql = "SELECT Id_producto, Nombre_producto, Categoria, Precio, Cantidad_disponible, Descripcion, Ultimo_Updated \
+            FROM productos\
+            WHERE Id_producto LIKE \'%"+busqueda+"%\'\
+            OR Nombre_producto LIKE \'%"+busqueda+"%\'\
+            OR Categoria LIKE \'%"+busqueda+"%\'\
+            OR Precio LIKE \'%"+busqueda+"%\'\
+            OR Cantidad_disponible LIKE \'%"+busqueda+"%\'\
+            OR Descripcion LIKE \'%"+busqueda+"%\'\
+            OR Ultimo_Updated LIKE \'%"+busqueda+"5%\'";
+    cur.execute(sql);
+    products = cur.fetchall()
+    cur.close()
+    return products
+
