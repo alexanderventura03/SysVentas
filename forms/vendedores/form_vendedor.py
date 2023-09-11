@@ -52,9 +52,6 @@ class inventario:
         self.lista.heading("col5",text="Descripcion", anchor="center")
         self.lista.heading("col6",text="Fecha", anchor="center")
 
-        #Eventos
-        #self.lista.bind("<Double 1>", lambda event, frame_producto=frame_producto: self.obtener_fila(event, frame_producto))
-
         if(resultados == ""):
             productos = self.datos.consultar_inventario()
             for producto in productos:
@@ -98,28 +95,6 @@ class inventario:
         txt_existencia = Entry(pop,textvariable= existencia).place(x=200,y=40)
         txt_descripcion = Entry(pop,textvariable= descripcion).place(x=200,y=80)
 
-        #botones
-        btn_cambiar = Button(pop, text="Actualizar",relief="flat",bg="#3a7ff6",foreground="white",command=lambda:self.editar(frame_producto, pop, i, nombre.get(),categoria.get(),precio.get(),existencia.get(),descripcion.get())).place(x=180,y=160,width=90)                 
-        btn_eliminar = Button(pop, text="Eliminar ",relief="flat",bg="red",foreground="white",command=lambda:self.eliminar(frame_producto, pop, i)).place(x=290,y=160,width=90)
-
-    def editar(self, frame_producto, pop, id, nombre, categoria, precio, existencia, description):
-        datos = Dao()
-        arr = [nombre, categoria, precio, existencia, description]
-        actualizados = datos.actualizar_producto(arr, id)
-        self.limpiar_lista(frame_producto)
-        self.crear_tabla(frame_producto, actualizados)
-        messagebox.showinfo(title="Actualizacion", message="Se ha actualizado el producto correctamente")
-        pop.destroy()
-
-    def eliminar(self, frame_producto, pop, id):
-        datos = Dao()
-        actualizados = datos.eliminar_elemento(id)
-        respuesta = messagebox.askyesno("Confirmar", "¿Deseas eliminar este producto?")
-        if respuesta:
-            pop.destroy()
-            self.limpiar_lista(frame_producto)
-            self.crear_tabla(frame_producto, actualizados)
-
     def __init__(self):        
         self.ventana = tk.Tk()                         
         self.ventana.title('SysVentas-Inventario')
@@ -152,7 +127,7 @@ class inventario:
         frame_producto = tk.Frame(frame_tabla, width=800, height = 300, bd=0, relief=tk.SOLID, bg='#bae3f7')
         frame_producto.pack(expand=tk.NO,fill=tk.BOTH)
 
-        #Boton Borrar seccion
+        #Boton cerrar seccion
         frame_button_regresar = tk.Frame(frame_botones,  bd=0, relief=tk.SOLID,bg='#fcfcfc')
         frame_button_regresar.pack(side="left", fill=tk.NONE, padx=25, pady=15)
        
@@ -164,14 +139,14 @@ class inventario:
         etiqueta_titulo.pack(side="right")
 
 
-        #Creacion del filtro
+#         #Creacion del filtro
         etiqueta_filtro = tk.Label(frame_filtro_input, text="Filtrar", font=('Times', 14) ,fg="black",bg='#bae3f7', anchor="w")
         etiqueta_filtro.pack(fill=tk.X, padx=20,pady=5)
         self.filtro = ttk.Entry(frame_filtro_input, font=('Times', 14), width=15)
         self.filtro.pack(fill=tk.X, padx=20)
 
 
-        #Creacion del boton para filtrar
+#         #Creacion del boton para filtrar
         frame_button_buscar = tk.Frame(frame_filtro_boton, bd=1, relief=tk.SOLID)
         frame_button_buscar.pack(side="bottom", fill=tk.NONE)
         buscar = tk.Button(frame_button_buscar, text="Buscar",font=('Times', 15), bg='#fcfcfc', bd=0, fg="black", height=1, width=8, command= lambda: self.btn_buscar(frame_producto, self.filtro.get()))

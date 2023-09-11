@@ -19,6 +19,10 @@ class App:
             if len(usuario) > 0 and usuario[0][7] == "Facturador":
                 self.ventana.destroy()
                 from facturacion import facturacion
+            elif len(usuario) > 0 and usuario[0][7] == "Vendedor":
+                self.ventana.destroy()
+                from forms.vendedores.form_vendedor import inventario
+                inventario()
             elif len(usuario) > 0:
                 self.ventana.destroy()
                 Homepage()
