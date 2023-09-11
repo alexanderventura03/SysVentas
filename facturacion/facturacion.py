@@ -14,7 +14,6 @@ aplicacion.title("SysVentas")
 
 aplicacion.resizable(0,0);
 
-
 datos = Dao()
 # Productos orden en lista 0-ID, 1-Nombre Producto, 2-Precio, 3-Cantidad disponible
 productos = datos.buscar_productos()
