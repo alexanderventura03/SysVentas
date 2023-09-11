@@ -10,7 +10,8 @@ def truncate_text(text, max_length):
         return text[:max_length-3] + "..."
     else:
         return text
-    
+
+
 #declaracion de la clase y propiedades del Homepage
 class Homepage:
 
@@ -25,7 +26,13 @@ class Homepage:
         from forms.form_inventario import inventario
         self.ventana.destroy()
         inventario()
-                                      
+
+    def crear_factura(self):
+        respuesta = messagebox.askyesno("Confirmar", "¿Deseas ir al módulo de facturación?")
+        if respuesta:
+            self.ventana.destroy()
+            from facturacion.facturacion import aplicacion
+
     def __init__(self):        
         self.ventana = tk.Tk()                         
         self.ventana.title('SysVentas-Homepage')
@@ -101,7 +108,7 @@ class Homepage:
         frame_button_factura = tk.Frame(frame_derecho_botones2, bd=1, relief=tk.SOLID)
         frame_button_factura.pack(side="left", fill=tk.NONE, padx=3)
 
-        facturar = tk.Button(frame_button_factura,text="Crear Factura", font=('Times', 15, BOLD), bg='#fcfcfc', bd=0, fg="black", width=14)
+        facturar = tk.Button(frame_button_factura,text="Crear Factura", font=('Times', 15, BOLD), bg='#fcfcfc', bd=0, fg="black", width=14, command= lambda: self.crear_factura())
         facturar.pack(fill=tk.X, padx=2,pady=2)
        
        #Boton Consultar Facturas

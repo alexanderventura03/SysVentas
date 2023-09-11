@@ -28,6 +28,14 @@ productos_actualizar = []
 factura = []
 detalle_factura = []
 
+def regresar():
+        respuesta = messagebox.askyesno("Confirmar", "¿Deseas cerrar sesión?")
+        if respuesta:
+            from forms.form_login import App
+            aplicacion.destroy()
+            App()
+            
+
 def revisar_check():
     x = 0
     for c in cuadros_productos:
@@ -184,7 +192,7 @@ etiqueta_titulo = Label(panel_superior, text="Sistema De Facturación", fg="whit
 etiqueta_titulo.grid(row=0, column=0)
 
 
-btn_regresar = Button(panel_superior,text="Cerrar sesión",font=('Times', 14), bg='#fcfcfc', bd=0, fg="black", height=1, width=9, padx=7, pady=4, command= lambda: btn_regresar)
+btn_regresar = Button(panel_superior,text="Cerrar sesión",font=('Times', 14), bg='#fcfcfc', bd=0, fg="black", height=1, width=9, padx=7, pady=4, command= lambda: regresar())
 
 btn_regresar.place(x=10, y=18)
 
