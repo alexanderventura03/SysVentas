@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 import util.generic as utl
-from data import conexion
+from data.conexion import Dao
 
 
 def truncate_text(text, max_length):
@@ -14,8 +14,10 @@ def truncate_text(text, max_length):
 
 class inventario:
 
+    datos = Dao()
+
     def btn_buscar(self, frame_producto, busqueda):
-        resultados = conexion.btn_buscar(busqueda)
+        resultados = self.datos.btn_buscar(busqueda)
         self.limpiar_lista(frame_producto)
         self.crear_tabla(frame_producto, resultados)
         return resultados
@@ -50,7 +52,7 @@ class inventario:
         self.lista.heading("col6",text="Fecha", anchor="center")
 
         if(resultados == ""):
-            productos = conexion.consultar_inventario()
+            productos = self.datos.consultar_inventario()
             for producto in productos:
                 self.lista.insert("", END, text=producto[0], values=(producto[1], producto[2], producto[3], producto[4], producto[5], producto[6]))
         else:
