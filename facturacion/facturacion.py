@@ -5,6 +5,7 @@ import random
 import datetime
 from tkinter import filedialog, messagebox
 import string
+from util.generic import centrar_ventana
 
 # Inicializar la aplicación Tkinter
 aplicacion = Tk()
@@ -12,6 +13,7 @@ aplicacion.geometry('1000x612+0+0')
 aplicacion.title("SysVentas")
 aplicacion.config(bg='#0369a1')
 aplicacion.resizable(0,0);
+centrar_ventana(aplicacion, 1000, 612)
 
 datos = Dao()
 
@@ -231,7 +233,8 @@ for producto in productos:
     productos_agregados.append(IntVar())
     producto_checkbutton = Checkbutton(frame_products, text=f"{producto[1]} - D:{producto[3]} - ${producto[2]}",
                                        font=("Dosis", 19, "bold"),
-                                       variable=productos_agregados[contador_productos],
+                                       fg="#0c4a6e",
+                                        variable=productos_agregados[contador_productos],
                                        command=revisar_check)
     producto_checkbutton.grid(row=contador_fila, column=0, sticky=W)
 
