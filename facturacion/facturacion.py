@@ -11,9 +11,8 @@ from util.generic import centrar_ventana
 aplicacion = Tk()
 aplicacion.geometry('1000x612+0+0')
 aplicacion.title("SysVentas")
-aplicacion.config(bg='#0369a1')
+
 aplicacion.resizable(0,0);
-centrar_ventana(aplicacion, 1000, 612)
 
 
 datos = Dao()
@@ -96,12 +95,13 @@ def resetear():
 
 def actualizar_lista_productos():
     global productos
+    productos.clear()
     productos = datos.buscar_productos()
 
     # Actualizar la interfaz gráfica para reflejar la nueva lista de productos
     for i, producto in enumerate(productos):
         producto_checkbutton = Checkbutton(frame_products, text=f"{producto[1]} - D:{producto[3]} - ${producto[2]}",
-                                           font=("Dosis", 19, "bold"),
+                                           font=('Times', 19),
                                            fg="#0c4a6e",
                                            variable=productos_agregados[i],
                                            command=revisar_check)
@@ -174,13 +174,20 @@ def guardar_recibo():
 
         messagebox.showinfo("Información", "Factura guardada correctamente")
         actualizar_lista_productos()
+        
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
 panel_superior.pack(side="top")
 
-etiqueta_titulo = Label(panel_superior, text="Sistema De Facturación", fg="white", bg='#0369a1', width=26,
-                     font=("Times, 50"))
+etiqueta_titulo = Label(panel_superior, text="Sistema De Facturación", fg="white", bg='#0369a1', width=32,
+                     font=('Times', 30), padx=150, pady=10)
 etiqueta_titulo.grid(row=0, column=0)
+
+
+btn_regresar = Button(panel_superior,text="Cerrar sesión",font=('Times', 14), bg='#fcfcfc', bd=0, fg="black", height=1, width=9, padx=7, pady=4, command= lambda: btn_regresar)
+
+btn_regresar.place(x=10, y=18)
+
 
 # Crear un frame izquierdo
 panel_izquierdo = Frame(aplicacion, bd=1, relief="solid")
@@ -195,8 +202,8 @@ panel_derecho = Frame(aplicacion, bd=1, relief="flat")
 panel_derecho.pack(side="right")
 
 # Crear un frame para los productos (dentro del panel izquierdo)
-panel_productos = LabelFrame(panel_izquierdo, text="Productos", font=("Dosis", 19, "bold"),
-                             bd=1, relief="flat", fg="#3b82f6")
+panel_productos = LabelFrame(panel_izquierdo, text="Productos", font=("Times", 20, "bold"),
+                             bd=1, relief="flat", fg="#0369a1")
 panel_productos.pack(side="left")
 
 # Crear un ScrolledFrame para la lista de productos
@@ -246,7 +253,7 @@ for producto in productos:
     # Crear los checkbox
     productos_agregados.append(IntVar())
     producto_checkbutton = Checkbutton(frame_products, text=f"{producto[1]} - D:{producto[3]} - ${producto[2]}",
-                                       font=("Dosis", 19, "bold"),
+                                       font=('Times', 19),
                                        fg="#0c4a6e",
                                         variable=productos_agregados[contador_productos],
                                        command=revisar_check)
@@ -259,7 +266,7 @@ for producto in productos:
     texto_producto[contador_productos] = StringVar()
     texto_producto[contador_productos].set('0')
     cuadros_productos[contador_productos] = Entry(frame_products, bd=1, 
-                                                  font=('Dosis', 18, 'bold'),
+                                                  font=('Times', 19),
                                                   width=6,
                                                   state=DISABLED,
                                                   textvariable=texto_producto[contador_productos]
@@ -269,7 +276,7 @@ for producto in productos:
     contador_productos += 1
     contador_fila += 1
 
-canvas.config(scrollregion=canvas.bbox("all"), width=530, height=360)
+canvas.config(scrollregion=canvas.bbox("all"), width=580, height=360)
 
 etiqueta_sub_total = Label(panel_coste, text="Sub total: ", 
                                 font=("Dosis", 12, "bold"),
@@ -330,11 +337,13 @@ columnas = 0
 for boton in botones:
     boton = Button(panel_botones,
                    text=boton.title(),
-                   font=('Dosis', 14, 'bold'),
+                   font=('Times', 14, 'bold'),
                    fg='white',
                    bg='#0369a1',
                    bd=1,
-                   width=9)
+                   width=7,
+                   padx=5
+                   )
     botones_creados.append(boton)
 
     boton.grid(row=0,
@@ -351,7 +360,7 @@ texto_recibo = Text(panel_recibo,
                     font=('Dosis', 12, 'bold'),
                     bd=1,
                     width=42,
-                    height=13)
+                    height=15)
 texto_recibo.grid(row=0,
                   column=0)
 
@@ -365,7 +374,7 @@ visor_calculadora.grid(row=0,
                        columnspan=4)
 
 botones_calculadora = ['7', '8', '9', '+', '4', '5', '6', '-',
-                       '1', '2', '3', 'x', 'R', 'B', '0', '/']
+                       '1', '2', '3', 'x', '=', 'DEL', '0', '/']
 botones_guardados = []
 
 fila = 1
@@ -377,7 +386,7 @@ for boton in botones_calculadora:
                    fg='white',
                    bg='#0369a1',
                    bd=1,
-                   width=8)
+                   width=6)
 
     botones_guardados.append(boton)
 
