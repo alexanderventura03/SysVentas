@@ -8,9 +8,9 @@ import string
 
 # Inicializar la aplicación Tkinter
 aplicacion = Tk()
-aplicacion.geometry('1000x610+0+0')
+aplicacion.geometry('1000x612+0+0')
 aplicacion.title("SysVentas")
-aplicacion.config(bg="burlywood")
+aplicacion.config(bg='#0369a1')
 aplicacion.resizable(0,0);
 
 datos = Dao()
@@ -158,16 +158,16 @@ def guardar_recibo():
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
 panel_superior.pack(side="top")
 
-etiqueta_titulo = Label(panel_superior, text="SysVentas", fg="azure4", bg="burlywood", width=27,
-                     font=("Arial, 50"))
+etiqueta_titulo = Label(panel_superior, text="Sistema De Facturación", fg="white", bg='#0369a1', width=26,
+                     font=("Times, 50"))
 etiqueta_titulo.grid(row=0, column=0)
 
 # Crear un frame izquierdo
-panel_izquierdo = Frame(aplicacion, bd=1, relief="flat")
+panel_izquierdo = Frame(aplicacion, bd=1, relief="solid")
 panel_izquierdo.pack(side="left")
 
 # Crear panel para costos
-panel_coste = Frame(panel_izquierdo, bd=1, relief="flat", bg="azure4", padx=154)
+panel_coste = Frame(panel_izquierdo, bd=1, relief="flat", bg='#0369a1', padx=154)
 panel_coste.pack(side="bottom")
 
 # Crear un frame derecho
@@ -176,7 +176,7 @@ panel_derecho.pack(side="right")
 
 # Crear un frame para los productos (dentro del panel izquierdo)
 panel_productos = LabelFrame(panel_izquierdo, text="Productos", font=("Dosis", 19, "bold"),
-                             bd=1, relief="flat", fg="azure4")
+                             bd=1, relief="flat", fg="#3b82f6")
 panel_productos.pack(side="left")
 
 # Crear un ScrolledFrame para la lista de productos
@@ -205,15 +205,15 @@ canvas.create_window((0, 0), window=frame_products, anchor="nw")
 frame_products.bind("<Configure>", on_frame_configure)
 
 # Crear un frame para la calculadora (dentro del panel derecho)
-panel_calculadora = Frame(panel_derecho, bd=1, relief="flat", bg="burlywood")
+panel_calculadora = Frame(panel_derecho, bd=1, relief="flat", bg='#0369a1')
 panel_calculadora.pack()
 
 # Crear un frame para el recibo (dentro del panel derecho)
-panel_recibo = Frame(panel_derecho, bd=1, relief="flat", bg="burlywood")
+panel_recibo = Frame(panel_derecho, bd=1, relief="flat", bg='#0369a1')
 panel_recibo.pack()
 
 # Crear un frame para los botones (dentro del panel derecho)
-panel_botones = Frame(panel_derecho, bd=1, relief="flat", bg="burlywood")
+panel_botones = Frame(panel_derecho, bd=1, relief="flat", bg='#0369a1')
 panel_botones.pack()
 
 
@@ -256,7 +256,7 @@ canvas.config(scrollregion=canvas.bbox("all"), width=500, height=360)
 
 etiqueta_sub_total = Label(panel_coste, text="Sub total: ", 
                                 font=("Dosis", 12, "bold"),
-                                bg="azure4",
+                                bg='#0369a1',
                                 fg="white",
                                 padx=65,)
 
@@ -273,7 +273,7 @@ texto_sub_total.grid(row=0, column=1)
 
 etiqueta_impuesto = Label(panel_coste, text="Impuestos: ", 
                                 font=("Dosis", 12, "bold"),
-                                bg="azure4",
+                                bg='#0369a1',
                                 fg="white",
                                 padx=60,)
 
@@ -290,7 +290,7 @@ texto_impuesto.grid(row=1, column=1)
 
 etiqueta_total = Label(panel_coste, text="      Total:     ", 
                                 font=("Dosis", 12, "bold"),
-                                bg="azure4",
+                                bg='#0369a1',
                                 fg="white",
                                 padx=41,)
 
@@ -315,7 +315,7 @@ for boton in botones:
                    text=boton.title(),
                    font=('Dosis', 14, 'bold'),
                    fg='white',
-                   bg='azure4',
+                   bg='#0369a1',
                    bd=1,
                    width=9)
     botones_creados.append(boton)
@@ -358,7 +358,7 @@ for boton in botones_calculadora:
                    text=boton.title(),
                    font=('Dosis', 16, 'bold'),
                    fg='white',
-                   bg='azure4',
+                   bg='#0369a1',
                    bd=1,
                    width=8)
 
