@@ -17,6 +17,8 @@ centrar_ventana(aplicacion, 1000, 612)
 
 
 datos = Dao()
+# Productos orden en lista 0-ID, 1-Nombre Producto, 2-Precio, 3-Cantidad disponible
+productos = datos.buscar_productos()
 
 # variables
 operador = ''
@@ -92,6 +94,18 @@ def resetear():
     var_impuesto.set('')
     var_total.set('')
 
+def actualizar_lista_productos():
+    global productos
+    productos = datos.buscar_productos()
+
+    # Actualizar la interfaz gráfica para reflejar la nueva lista de productos
+    for i, producto in enumerate(productos):
+        producto_checkbutton = Checkbutton(frame_products, text=f"{producto[1]} - D:{producto[3]} - ${producto[2]}",
+                                           font=("Dosis", 19, "bold"),
+                                           fg="#0c4a6e",
+                                           variable=productos_agregados[i],
+                                           command=revisar_check)
+        producto_checkbutton.grid(row=i, column=0, sticky=W)
 
 def recibo():
     # Caracteres permitidos (letras mayúsculas y dígitos)
@@ -134,7 +148,7 @@ def recibo():
     texto_recibo.insert(END, 'Lo esperamos pronto')
 
 def guardar_recibo():
-
+    global productos
     respuesta = messagebox.askyesno("Confirmar", "¿Deseas continuar?")
     if respuesta:
         i = 0
@@ -159,6 +173,7 @@ def guardar_recibo():
         detalle_factura.clear()
 
         messagebox.showinfo("Información", "Factura guardada correctamente")
+        actualizar_lista_productos()
 # Crear un frame superior
 panel_superior = Frame(aplicacion, bd=1, relief="flat")
 panel_superior.pack(side="top")
@@ -221,10 +236,6 @@ panel_recibo.pack()
 panel_botones = Frame(panel_derecho, bd=1, relief="flat", bg='#0369a1')
 panel_botones.pack()
 
-
-# Productos orden en lista 0-ID, 1-Nombre Producto, 2-Precio, 3-Cantidad disponible
-productos = datos.buscar_productos()
-
 contador_fila = 0
 contador_productos = 0
 productos_agregados = []
@@ -258,7 +269,7 @@ for producto in productos:
     contador_productos += 1
     contador_fila += 1
 
-canvas.config(scrollregion=canvas.bbox("all"), width=500, height=360)
+canvas.config(scrollregion=canvas.bbox("all"), width=530, height=360)
 
 etiqueta_sub_total = Label(panel_coste, text="Sub total: ", 
                                 font=("Dosis", 12, "bold"),
